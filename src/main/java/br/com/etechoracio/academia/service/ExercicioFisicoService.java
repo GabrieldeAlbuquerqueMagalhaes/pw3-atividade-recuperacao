@@ -5,6 +5,7 @@ import br.com.etechoracio.academia.entity.ExercicioFisico;
 import br.com.etechoracio.academia.exception.RecursoNaoEncontradoException;
 import br.com.etechoracio.academia.mapper.ExercicioFisicoMapper;
 import br.com.etechoracio.academia.repository.ExercicioFisicoRepository;
+import br.com.etechoracio.academia.request.ExercicioFisicoRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,5 +36,14 @@ public class ExercicioFisicoService {
                 ));
 
         return mapper.toResponse(exercicio);
+    }
+    public ExercicioFisicoResponse criar(ExercicioFisicoRequest request) {
+        ExercicioFisico exercicio = mapper.toEntity(request);
+
+        exercicio.setAprovado(false);
+
+        ExercicioFisico salvo = repository.save(exercicio);
+
+        return mapper.toResponse(salvo);
     }
 }

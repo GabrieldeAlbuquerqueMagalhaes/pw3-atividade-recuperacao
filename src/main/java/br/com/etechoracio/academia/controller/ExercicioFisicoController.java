@@ -2,7 +2,9 @@ package br.com.etechoracio.academia.controller;
 
 import br.com.etechoracio.academia.dto.response.ExercicioFisicoResponse;
 import br.com.etechoracio.academia.exception.RecursoNaoEncontradoException;
+import br.com.etechoracio.academia.request.ExercicioFisicoRequest;
 import br.com.etechoracio.academia.service.ExercicioFisicoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,5 +33,13 @@ public class ExercicioFisicoController {
         } catch (RecursoNaoEncontradoException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+    @PostMapping
+    public ResponseEntity<ExercicioFisicoResponse> criar(
+            @RequestBody ExercicioFisicoRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.criar(request));
     }
 }
