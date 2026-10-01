@@ -46,4 +46,16 @@ public class ExercicioFisicoService {
 
         return mapper.toResponse(salvo);
     }
+    public ExercicioFisicoResponse aprovar(Long id) {
+        ExercicioFisico exercicio = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Exercício físico não encontrado para o id: " + id
+                ));
+
+        exercicio.setAprovado(true);
+
+        ExercicioFisico salvo = repository.save(exercicio);
+
+        return mapper.toResponse(salvo);
+    }
 }

@@ -42,4 +42,14 @@ public class ExercicioFisicoController {
                 .status(HttpStatus.CREATED)
                 .body(service.criar(request));
     }
+    @PatchMapping("/{id}/aprovar")
+    public ResponseEntity<ExercicioFisicoResponse> aprovar(
+            @PathVariable Long id) {
+
+        try {
+            return ResponseEntity.ok(service.aprovar(id));
+        } catch (RecursoNaoEncontradoException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
