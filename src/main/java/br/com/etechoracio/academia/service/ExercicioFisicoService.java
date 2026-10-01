@@ -1,6 +1,8 @@
 package br.com.etechoracio.academia.service;
 
 import br.com.etechoracio.academia.dto.response.ExercicioFisicoResponse;
+import br.com.etechoracio.academia.entity.ExercicioFisico;
+import br.com.etechoracio.academia.exception.RecursoNaoEncontradoException;
 import br.com.etechoracio.academia.mapper.ExercicioFisicoMapper;
 import br.com.etechoracio.academia.repository.ExercicioFisicoRepository;
 import org.springframework.stereotype.Service;
@@ -25,5 +27,13 @@ public class ExercicioFisicoService {
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
+    }
+    public ExercicioFisicoResponse buscarAprovadoPorId(Long id) {
+        ExercicioFisico exercicio = repository.findByIdAndAprovadoTrue(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Exercício físico aprovado não encontrado para o id: " + id
+                ));
+
+        return mapper.toResponse(exercicio);
     }
 }

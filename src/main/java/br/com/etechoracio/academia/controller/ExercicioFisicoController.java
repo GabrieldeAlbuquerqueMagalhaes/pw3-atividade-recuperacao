@@ -1,6 +1,7 @@
 package br.com.etechoracio.academia.controller;
 
 import br.com.etechoracio.academia.dto.response.ExercicioFisicoResponse;
+import br.com.etechoracio.academia.exception.RecursoNaoEncontradoException;
 import br.com.etechoracio.academia.service.ExercicioFisicoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +21,15 @@ public class ExercicioFisicoController {
     @GetMapping
     public ResponseEntity<List<ExercicioFisicoResponse>> listar() {
         return ResponseEntity.ok(service.listarAprovados());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ExercicioFisicoResponse> buscarPorId(
+            @PathVariable Long id) {
+
+        try {
+            return ResponseEntity.ok(service.buscarAprovadoPorId(id));
+        } catch (RecursoNaoEncontradoException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
